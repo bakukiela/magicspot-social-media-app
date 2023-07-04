@@ -1,13 +1,15 @@
+import "./comments.scss";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
 import moment from "moment";
-import "./comments.scss";
+import { DefaultUserContext } from "../../context/defaultUserContext";
 
 const Comments = ({ postId }) => {
   const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
+  const defaultUser = useContext(DefaultUserContext)
 
   const { isLoading, error, data } = useQuery(["comments"], () =>
     makeRequest.get("/comments?postId=" + postId).then((res) => {
@@ -37,7 +39,7 @@ const Comments = ({ postId }) => {
   return (
     <div className="comments">
       <div className="write">
-        <img src={currentUser.profilePic} alt="" />
+        <img src={currentUser.profilePic !== null ? "/upload/" + currentUser.profilePic : defaultUser.profilePic} alt="" />
         <input
           type="text"
           placeholder="write a comment"

@@ -1,17 +1,26 @@
+import "../leftBar/leftBar.scss";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
-import "../leftBar/leftBar.scss"
+import { DefaultUserContext } from "../../context/defaultUserContext";
 
 const LeftBar = () => {
-
+  
   const { currentUser } = useContext(AuthContext);
+  const defaultUser = useContext(DefaultUserContext);
 
   return (
     <div className="leftBar">
       <div className="container">
         <div className="menu">
           <div className="user">
-            <img src={"/upload/" + currentUser.profilePic} alt="" />
+            <img
+              src={
+                currentUser.profilePic !== null
+                  ? "/upload/" + currentUser.profilePic
+                  : defaultUser.profilePic
+              }
+              alt=""
+            />
             <span>{currentUser.name}</span>
           </div>
           <div className="item">
@@ -80,4 +89,4 @@ const LeftBar = () => {
   );
 };
 
-export default LeftBar
+export default LeftBar;

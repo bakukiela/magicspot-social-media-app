@@ -15,6 +15,7 @@ const Update = ({ setOpenUpdate, user }) => {
     city: user.city,
   });
 
+
   const handleChange = (e) => {
     setText((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
