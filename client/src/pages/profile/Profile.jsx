@@ -12,22 +12,16 @@ import { makeRequest } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import { DefaultUserContext } from "../../context/defaultUserContext";
 import { useState } from "react";
 import Update from "../../components/update/Update";
-import LeftBar from "../../components/leftBar/LeftBar";
-import NavBar from "../../components/leftBar/LeftBar";
 
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const { currentUser } = useContext(AuthContext);
+  const defaultUser = useContext(DefaultUserContext);
 
   const userId = parseInt(useLocation().pathname.split("/")[2]);
-  const defaultUser = {
-    city: "N/A",
-    coverPic: "https://cdn.pixabay.com/photo/2019/08/06/15/50/fantasy-4388628_1280.jpg",
-    profilePic: "https://cdn.pixabay.com/photo/2023/06/17/10/56/alone-8069715_1280.jpg",
-    lang: "N/A",
-  };
 
   const { isLoading, error, data } = useQuery(["user"], () =>
     makeRequest.get("/users/find/" + userId).then((res) => {
@@ -70,20 +64,8 @@ const Profile = () => {
       ) : (
         <>
           <div className="images">
-            {currentUser.coverPic ? (
-              <img src={"/upload/" + data.coverPic} alt="" className="cover" />
-            ) : (
-              <img src={defaultUser.coverPic} alt="" className="cover" />
-            )}
-            {currentUser.profilePic ? (
-              <img
-                src={"/upload/" + data.profilePic}
-                alt=""
-                className="profilePic"
-              />
-            ) : (
-              <img src={defaultUser.profilePic} alt="" className="profilePic" />
-            )}
+            <img src={"/upload/" + data.coverPic} alt="" className="cover" />
+            <img src={data.profilePic !== null ? "/upload/" + data.profilePic : defaultUser.profilePic} alt="" className="profilePic"/>
           </div>
           <div className="profileContainer">
             <div className="profileDetails">
@@ -103,11 +85,15 @@ const Profile = () => {
                 <div className="info">
                   <div className="item">
                     <PlaceIcon />
-                    <span>{data.city !== null ? data.city : defaultUser.city}</span>
+                    <span>
+                      {data.city !== "" ? data.city : defaultUser.city}
+                    </span>
                   </div>
                   <div className="item">
                     <LanguageIcon />
-                    <span>{data.lang !== null ? data.lang : defaultUser.lang}</span>
+                    <span>
+                      {data.lang !== "" ? data.lang : defaultUser.lang}
+                    </span>
                   </div>
                 </div>
                 {rIsLoading ? (

@@ -9,6 +9,7 @@
     background-color: themed("bg");
     color: themed("textColor");
     overflow: scroll;
+    width: 250px;
 
     @include mobile {
       display: none;
