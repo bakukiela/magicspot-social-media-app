@@ -9,10 +9,16 @@ export const getStories = (req, res) => {
   jwt.verify(token, "secretkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const q = `SELECT s.*, name FROM stories AS s JOIN users AS u ON (u.id = s.userId)
-    LEFT JOIN relationships AS r ON (s.userId = r.followedUserId AND r.followerUserId= ?) LIMIT 4`;
+    const q = `
+    SELECT s.*, name
+    FROM stories AS s
+    JOIN users AS u ON (u.id = s.userId)
+    JOIN relationships AS r ON (s.userId = r.followedUserId AND r.followerUserId = ?)
+    WHERE r.followerUserId = ? 
+    LIMIT 10
+  `;
 
-    db.query(q, [userInfo.id], (err, data) => {
+    db.query(q, [userInfo.id, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data);
     });
@@ -41,7 +47,7 @@ export const addStory = (req, res) => {
 };
 
 export const deleteStory = (req, res) => {
-  const token = req.cookies.accessToken; 
+  const token = req.cookies.accessToken;
   if (!token) return res.status(401).json("Not logged in!");
 
   jwt.verify(token, "secretkey", (err, userInfo) => {

@@ -4,15 +4,17 @@ import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { makeRequest } from "../../axios";
 import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import SendIcon from "@mui/icons-material/Send";
 
 const StoryModal = ({ setModalOpen }) => {
-  const [image, setImage] = useState(null);
-  const [text, setText] = useState("");
+  const [file, setFile] = useState(null);
 
   const upload = async () => {
     try {
       const formData = new FormData();
-      formData.append("image", image);
+      formData.append("file", file);
       const res = await makeRequest.post("/upload", formData);
       return res.data;
     } catch (err) {
@@ -21,6 +23,7 @@ const StoryModal = ({ setModalOpen }) => {
   };
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const mutation = useMutation(
     (newStory) => {
@@ -35,20 +38,16 @@ const StoryModal = ({ setModalOpen }) => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setImage(file);
-  };
-
-  const handleTextChange = (e) => {
-    setText(e.target.value);
+    setFile(file);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let imgUrl = "";
-    if (image) imgUrl = await upload();
-    mutation.mutate({text, img: imgUrl });
-    setImage(null);
-    setText("");
+    if (file) imgUrl = await upload();
+    mutation.mutate({ img: imgUrl });
+    setFile(null);
+    navigate("/");
   };
 
   return (
@@ -59,25 +58,30 @@ const StoryModal = ({ setModalOpen }) => {
             <ArrowBackIcon />
           </IconButton>
         </div>
-        <label htmlFor="file">
-          <div className="img">
-            {image && (
-              <img alt="" src={URL.createObjectURL(image)} />
-            )}
-            <input type="file" id="file" style={{display:"none"}} onChange={handleImageChange} />
+        <div className="editBar">
+          <label htmlFor="file">
+            <div className="img">
+              {file && <img alt="" src={URL.createObjectURL(file)} />}
+              <input
+                type="file"
+                id="file"
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+              />
+            </div>
+          </label>
+          <div className="tools">
+            <IconButton
+              className="tool"
+              onClick={() => document.getElementById("file").click()}
+            >
+              <UploadFileIcon />
+            </IconButton>
+            <IconButton className="tool" onClick={handleSubmit}>
+              <SendIcon />
+            </IconButton>
           </div>
-        </label>
-        <div className="tools">
-          <div className="tool">X</div>
-          <div className="tool">Y</div>
-          <div className="tool">Z</div>
         </div>
-        {/* <div className="textArea">
-          <textarea value={text} onChange={handleTextChange} placeholder="Wprowadź tekst..." />
-        </div> */}
-        {/* <div>
-          <button onClick={handleSubmit}>Wyślij</button>
-        </div> */}
       </div>
     </div>
   );

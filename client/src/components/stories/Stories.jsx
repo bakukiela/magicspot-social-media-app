@@ -1,14 +1,22 @@
-import "../stories/stories.scss";
-import { useContext } from "react";
+import "./stories.scss";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import { Link } from "react-router-dom";
+import ViewStoryModal from "../../modals/viewStory/ViewStoryModal";
+import { DefaultUserContext } from "../../context/defaultUserContext";
 
 const Stories = () => {
+  const [view, setView] = useState(null);
+  const [selectedStory, setSelectedStory] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [userStories, setUserStories] = useState([]);
+  const [userImageContainers, setUserImageContainers] = useState({});
+
   const { currentUser } = useContext(AuthContext);
-  // const [file, setFile] = useState(null);
+  const defaultUser = useContext(DefaultUserContext);
 
   const { isLoading, error, data } = useQuery(["stories"], () =>
     makeRequest.get("/stories").then((res) => {
@@ -16,80 +24,116 @@ const Stories = () => {
     })
   );
 
-  // const queryClient = useQueryClient();
+  useEffect(() => {
+    if (data) {
+      const containers = {};
 
-  // const uploadFile = async (file) => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-  //     const res = await makeRequest.post("/upload", formData);
-  //     return res.data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+      data.forEach((item) => {
+        if (!containers[item.userId]) {
+          containers[item.userId] = [];
+        }
+        containers[item.userId].push(item);
+      });
 
-  // const mutation = useMutation(
-  //   (newStory) => {
-  //     return makeRequest.post("/stories", newStory);
-  //   },
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries(["stories"]);
-  //     },
-  //   }
-  // );
+      Object.keys(containers).forEach((userId) => {
+        containers[userId].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      });
+      setUserImageContainers(containers);
+    }
+  }, [data]);
 
-  // const handleClick = async (e) => {
-  //   e.preventDefault();
-  //   let imgUrl = "";
-  //   if (file) imgUrl = await uploadFile();
-  //   mutation.mutate({ img: imgUrl });
-  //   setFile(null);
-  // };
+  useEffect(() => {
+    if (data) {
+      setUserStories(data);
+    }
+  }, [data]);
 
-  // Temporaty data:
-  // const stories = [
-  //   {
-  //     id: 1,
-  //     name: "Emil Wrocky",
-  //     img: "https://images.pexels.com/photos/15126855/pexels-photo-15126855/free-photo-of-zachod-slonca-latanie-znane-miejsce-slonce.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dimitry Vegas",
-  //     img: "https://images.pexels.com/photos/1676671/pexels-photo-1676671.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Nick Fredrich",
-  //     img: "https://images.pexels.com/photos/16791418/pexels-photo-16791418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Juliette Stark",
-  //     img: "https://images.pexels.com/photos/4652275/pexels-photo-4652275.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   },
-  // ];
+  const handleStoryClick = (story, index) => {
+    console.log("Object:", story);
+    console.log("Index:", index);
+    setSelectedStory(story);
+    setCurrentIndex(index);
+    setView(true);
+  };
+
+  const handleNextStory = () => {
+    if (data && data.length > 0) {
+      const nextIndex = (currentIndex + 1) % data.length;
+      setSelectedStory(data[nextIndex]);
+      setCurrentIndex(nextIndex);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(handleNextStory, 5000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex, data]);
+
+  const handlePreviousStory = () => {
+    if (data && data.length > 0) {
+      const previousIndex = (currentIndex - 1 + data.length) % data.length;
+      setSelectedStory(data[previousIndex]);
+      setCurrentIndex(previousIndex);
+    }
+  };
+
   return (
     <div className="stories">
       <div className="story">
-        <img src={"/upload/" + currentUser.profilePic} alt="" />
+        <img
+          src={
+            currentUser.profilePic !== null
+              ? "/upload/" + currentUser.profilePic
+              : defaultUser.profilePic
+          }
+          alt=""
+        />
         <span className="userName">{currentUser.name}</span>
         <Link to={`/story/${currentUser.id}`}>
-          <AddOutlinedIcon className="button" />
+          <div className="addStoryOverlay">
+            <span>Add new story</span>
+            <button>+</button>
+          </div>
         </Link>
       </div>
       {error
         ? "Something went wrong"
         : isLoading
         ? "loading"
-        : data.map((story) => (
-            <div className="story" key={story.id}>
-              <img src={story.img} alt="" />
-              <span className="userName">{story.name}</span>
+        : Object.keys(userImageContainers).map((userId) => (
+            // <div key={userId} className="userStoryContainer">
+            // <div className="userImageContainer" >
+            <div
+              className="story"
+              onClick={() =>
+                handleStoryClick(userImageContainers[userId][0], 0)
+              }
+              key={userId.id}
+            >
+              <img
+                src={"/upload/" + userImageContainers[userId][0].img}
+                alt=""
+              />
+              <div className="storyOverlay">
+                <span className="userName">
+                  {userImageContainers[userId][0].name}
+                </span>
+              </div>
             </div>
+            // </div>
+            // </div>
           ))}
+      {view && (
+        <ViewStoryModal
+          handlePreviousStory={handlePreviousStory}
+          handleNextStory={handleNextStory}
+          story={selectedStory}
+          setView={setView}
+        />
+      )}
     </div>
   );
 };

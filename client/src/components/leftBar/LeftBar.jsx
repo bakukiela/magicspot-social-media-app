@@ -4,7 +4,6 @@ import { AuthContext } from "../../context/authContext";
 import { DefaultUserContext } from "../../context/defaultUserContext";
 
 const LeftBar = () => {
-  
   const { currentUser } = useContext(AuthContext);
   const defaultUser = useContext(DefaultUserContext);
 

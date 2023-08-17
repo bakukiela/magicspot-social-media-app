@@ -1,6 +1,9 @@
 import "../rightBar/rightBar.scss";
 
 const RightBar = () => {
+  const handleAlert = () => {
+    alert("This functionality is not available yet!");
+  };
   return (
     <div className="rightBar">
       <div className="container">
@@ -15,10 +18,10 @@ const RightBar = () => {
               <span>John Spark</span>
             </div>
             <div className="buttons">
-              <button variant="contained" color="primary">
+              <button color="primary" onClick={handleAlert}>
                 follow
               </button>
-              <button variant="contained" color="error">
+              <button color="error" onClick={handleAlert}>
                 dismiss
               </button>
             </div>
