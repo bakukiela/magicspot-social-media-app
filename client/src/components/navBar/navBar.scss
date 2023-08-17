@@ -21,16 +21,16 @@
 
       .IconButtons {
         color: themed("textColor");
-        
+
         .profileIcon {
           display: none;
 
           @include mobile {
             display: inline-block;
 
-          @include tablet {
-            display: inline-block;
-            }  
+            @include tablet {
+              display: inline-block;
+            }
           }
         }
       }
@@ -44,6 +44,7 @@
 
     .search {
       display: flex;
+      position: relative;
       align-items: center;
       gap: 10px;
       border: 1px solid themed("border");
@@ -65,6 +66,30 @@
           width: 200px;
         }
       }
+
+      .userList {
+        position: absolute;
+        width: 545px;
+        height: auto;
+        left: 0;
+        right: 0;
+        top: 50px;
+        color: themed("textColor");
+        background-color: themed("bg");
+        border-radius: 5px;
+
+        li {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px;
+          list-style: none;
+          border-radius: 5px;
+        }
+
+        li:hover {
+          background-color: themed("bgSoft");
+        }
+      }
     }
 
     .right {
@@ -81,10 +106,55 @@
       }
 
       .user {
+        position: relative;
         display: flex;
         align-items: center;
         gap: 10px;
         font-weight: bold;
+
+        .dropdownContent {
+          color: themed("textColor");
+          display: flex;
+          padding: 20px;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          top: calc(100% + 15px);
+          right: -20px;
+          width: 150px;
+          background-color: themed("bg");
+          gap: 20px;
+          border: 1px solid themed("border");
+          border-radius: 12px;
+
+          .open {
+            max-height: 300px;
+          }
+
+          .menuItem {
+            color: themed("textColor");
+            display: flex;
+            gap: 2px;
+            height: 40px;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            transition-duration: 0.2s;
+            cursor: pointer;
+          }
+
+          .menuItem:hover {
+            color: themed("bgSoft");
+          }
+        }
+
+        hr {
+          border: none;
+          height: 0.5px;
+          width: 80%;
+          background-color: themed("border");
+        }
 
         @include tablet {
           display: none;
@@ -94,6 +164,7 @@
           height: 40px;
           border-radius: 50%;
           object-fit: cover;
+          cursor: pointer;
         }
         span {
         }

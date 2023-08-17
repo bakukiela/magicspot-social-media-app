@@ -26,7 +26,7 @@ const Register = () => {
     }
   };
 
-  console.log(err)
+  console.log(err);
 
   return (
     <div className="register">

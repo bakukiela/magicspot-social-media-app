@@ -68,7 +68,8 @@ function App() {
         {
           path: "/profile/:id",
           element: <Profile />,
-        },        {
+        },
+        {
           path: "/story/:id",
           element: <Story />,
         },
