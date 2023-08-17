@@ -17,7 +17,7 @@ const Stories = () => {
 
   const { currentUser } = useContext(AuthContext);
   const defaultUser = useContext(DefaultUserContext);
-
+  
   const { isLoading, error, data } = useQuery(["stories"], () =>
     makeRequest.get("/stories").then((res) => {
       return res.data;
@@ -104,8 +104,6 @@ const Stories = () => {
         : isLoading
         ? "loading"
         : Object.keys(userImageContainers).map((userId) => (
-            // <div key={userId} className="userStoryContainer">
-            // <div className="userImageContainer" >
             <div
               className="story"
               onClick={() =>
@@ -123,8 +121,6 @@ const Stories = () => {
                 </span>
               </div>
             </div>
-            // </div>
-            // </div>
           ))}
       {view && (
         <ViewStoryModal
