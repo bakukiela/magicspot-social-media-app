@@ -13,12 +13,12 @@ export const getStories = (req, res) => {
     SELECT s.*, name
     FROM stories AS s
     JOIN users AS u ON (u.id = s.userId)
-    JOIN relationships AS r ON (s.userId = r.followedUserId AND r.followerUserId = ?)
-    WHERE r.followerUserId = ? 
+    LEFT JOIN relationships AS r ON (s.userId = r.followedUserId AND r.followerUserId = ?)
+    WHERE (r.followerUserId = ? OR s.userId = ?)  
     LIMIT 10
   `;
 
-    db.query(q, [userInfo.id, userInfo.id], (err, data) => {
+    db.query(q, [userInfo.id, userInfo.id, userInfo.id], (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data);
     });

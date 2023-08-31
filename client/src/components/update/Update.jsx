@@ -15,9 +15,7 @@ const Update = ({ setOpenUpdate, user }) => {
     city: user.city,
   });
 
-  const handleChange = (e) => {
-    setText((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+  console.log(text.city)
 
   const uploadFile = async (file) => {
     try {
@@ -28,6 +26,10 @@ const Update = ({ setOpenUpdate, user }) => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleChange = (e) => {
+    setText((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const queryClient = useQueryClient();

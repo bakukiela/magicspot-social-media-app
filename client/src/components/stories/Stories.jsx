@@ -1,7 +1,6 @@
 import "./stories.scss";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/authContext";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 import { Link } from "react-router-dom";
@@ -17,7 +16,7 @@ const Stories = () => {
 
   const { currentUser } = useContext(AuthContext);
   const defaultUser = useContext(DefaultUserContext);
-  
+
   const { isLoading, error, data } = useQuery(["stories"], () =>
     makeRequest.get("/stories").then((res) => {
       return res.data;
