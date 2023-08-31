@@ -10,7 +10,7 @@ import Posts from "../../components/posts/Posts";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { makeRequest } from "../../axios";
 import { useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/authContext";
 import { DefaultUserContext } from "../../context/defaultUserContext";
 import { useState } from "react";
@@ -20,14 +20,19 @@ const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const defaultUser = useContext(DefaultUserContext);
+  const location = useLocation();
 
   const userId = parseInt(useLocation().pathname.split("/")[2]);
 
-  const { isLoading, error, data } = useQuery(["user"], () =>
+  const { isLoading, error, data, refetch } = useQuery(["user"], () =>
     makeRequest.get("/users/find/" + userId).then((res) => {
       return res.data;
     })
   );
+
+  useEffect(() => {
+    refetch();
+  }, [location.pathname, refetch])
 
   const { isLoading: rIsLoading, data: relationshipData } = useQuery(
     ["relationship"],
@@ -56,7 +61,6 @@ const Profile = () => {
   const handleFollow = () => {
     mutation.mutate(relationshipData.includes(currentUser.id));
   };
-
   return (
     <div className="profile">
       {isLoading ? (
@@ -102,13 +106,13 @@ const Profile = () => {
                   <div className="item">
                     <PlaceIcon />
                     <span>
-                      {data.city !== "" ? data.city : defaultUser.city}
+                      {data.city !== null ? data.city : defaultUser.city}
                     </span>
                   </div>
                   <div className="item">
                     <LanguageIcon />
                     <span>
-                      {data.lang !== "" ? data.lang : defaultUser.lang}
+                      {data.lang !== null ? data.lang : defaultUser.lang}
                     </span>
                   </div>
                 </div>

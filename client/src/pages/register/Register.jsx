@@ -1,5 +1,5 @@
 import "../register/register.scss";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -11,6 +11,7 @@ const Register = () => {
     name: "",
   });
   const [err, setErr] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -21,12 +22,12 @@ const Register = () => {
 
     try {
       await axios.post("http://localhost:8800/api/auth/register", inputs);
+      setSuccess(true);
+      alert("Your account has been created successfully. Use your username and password to login.")
     } catch (err) {
       setErr(err.response.data);
     }
   };
-
-  console.log(err);
 
   return (
     <div className="register">
@@ -68,6 +69,7 @@ const Register = () => {
             />
             {err && err}
             <button onClick={handleClick}>Register</button>
+            {success && <Navigate to="/login" />}
           </form>
         </div>
       </div>

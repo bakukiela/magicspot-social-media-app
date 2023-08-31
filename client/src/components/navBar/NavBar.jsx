@@ -6,7 +6,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
@@ -18,6 +18,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
 
 const NavBar = () => {
+  const location = useLocation();
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser, logout } = useContext(AuthContext);
   const defaultUser = useContext(DefaultUserContext);
@@ -48,8 +49,6 @@ const NavBar = () => {
       user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
-
-  console.log(filteredUsers);
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -126,6 +125,7 @@ const NavBar = () => {
                     <Link
                       to={`/profile/${user.id}`}
                       style={{ textDecoration: "none" }}
+                      onClick={() => setShowList(false)}
                     >
                       {user.name}
                     </Link>
