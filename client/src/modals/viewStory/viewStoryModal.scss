@@ -36,6 +36,30 @@
         background-color: themed("bgSoft");
         color: themed("textColor");
       }
+
+      .more-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: themed("bgSoft");
+        color: themed("textColor");
+      }
+
+      .expanded-list {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 10px;
+        right: 10px;
+        background-color: themed("bgSoft");
+        border-radius: 5px;
+        padding: 5px;
+        z-index: 1;
+
+        .list-buttons {
+          color: themed("textColor");
+        }
+      }
       .back-button {
         position: absolute;
         top: 50%;
