@@ -3,7 +3,7 @@ import TextFieldsIcon from "@mui/icons-material/TextFields";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
-import {  useState } from "react";
+import { useState } from "react";
 import { IconButton } from "@mui/material";
 import StoryModal from "../../modals/storyModal/StoryModal";
 

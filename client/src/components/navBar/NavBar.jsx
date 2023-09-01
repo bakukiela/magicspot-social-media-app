@@ -18,7 +18,6 @@ import { useQuery, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
 
 const NavBar = () => {
-  const location = useLocation();
   const { toggle, darkMode } = useContext(DarkModeContext);
   const { currentUser, logout } = useContext(AuthContext);
   const defaultUser = useContext(DefaultUserContext);

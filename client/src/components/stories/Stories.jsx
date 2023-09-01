@@ -8,7 +8,7 @@ import ViewStoryModal from "../../modals/viewStory/ViewStoryModal";
 import { DefaultUserContext } from "../../context/defaultUserContext";
 
 const Stories = () => {
-  const [view, setView] = useState(null);
+  const [viewStory, setViewStory] = useState(null);
   const [selectedStory, setSelectedStory] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userStories, setUserStories] = useState([]);
@@ -34,8 +34,8 @@ const Stories = () => {
         containers[item.userId].push(item);
       });
 
-      Object.keys(containers).forEach((userId) => {
-        containers[userId].sort(
+      Object.keys(containers).forEach((user) => {
+        containers[user].sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
       });
@@ -54,7 +54,7 @@ const Stories = () => {
     console.log("Index:", index);
     setSelectedStory(story);
     setCurrentIndex(index);
-    setView(true);
+    setViewStory(true);
   };
 
   const handleNextStory = () => {
@@ -66,7 +66,7 @@ const Stories = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(handleNextStory, 5000);
+    const interval = setInterval(handleNextStory, 500000);
 
     return () => clearInterval(interval);
   }, [currentIndex, data]);
@@ -102,31 +102,31 @@ const Stories = () => {
         ? "Something went wrong"
         : isLoading
         ? "loading"
-        : Object.keys(userImageContainers).map((userId) => (
+        : Object.keys(userImageContainers).map((container) => (
             <div
               className="story"
               onClick={() =>
-                handleStoryClick(userImageContainers[userId][0], 0)
+                handleStoryClick(userImageContainers[container][0], 0)
               }
-              key={userId.id}
+              key={container}
             >
               <img
-                src={"/upload/" + userImageContainers[userId][0].img}
+                src={"/upload/" + userImageContainers[container][0].img}
                 alt=""
               />
               <div className="storyOverlay">
                 <span className="userName">
-                  {userImageContainers[userId][0].name}
+                  {userImageContainers[container][0].name}
                 </span>
               </div>
             </div>
           ))}
-      {view && (
+      {viewStory && (
         <ViewStoryModal
           handlePreviousStory={handlePreviousStory}
           handleNextStory={handleNextStory}
           story={selectedStory}
-          setView={setView}
+          setViewStory={setViewStory}
         />
       )}
     </div>
