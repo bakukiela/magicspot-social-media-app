@@ -2,8 +2,16 @@
 
 .modal {
   @include themify($themes) {
-    padding: 10px 20px;
     background-color: themed("bgSoft");
+    height: 100%;
+
+    @include mobile {
+      height: 100vh;
+    }
+
+    @include tablet {
+      height: 100vh;
+    }
 
     .modules {
       display: flex;
@@ -11,28 +19,15 @@
       .closeIcon {
         color: themed("textColor");
       }
-
-      img {
-        height: 40px;
-        width: 40px;
-        border-radius: 50vh;
-      }
-
-      a {
-        border: none;
-        height: 40px;
-        width: 40px;
-        border-radius: 50vh;
-        cursor: pointer;
-      }
     }
 
-    .base {
+    .cards {
       display: flex;
       gap: 20px;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      margin-top: 200px;
+
       .element {
         background-color: gray;
         width: 30vh;
@@ -44,6 +39,18 @@
         flex-direction: column;
         cursor: pointer;
 
+        @include mobile {
+          width: 20vh;
+          height: 30vh;
+          font-size: 15px;
+        }
+
+        @include tablet {
+          width: 20vh;
+          height: 30vh;
+          font-size: 15px;
+        }
+
         .icon {
           font-size: 40px;
           color: themed("textColor");
@@ -54,6 +61,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          text-align: center;
         }
       }
     }

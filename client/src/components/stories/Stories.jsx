@@ -66,7 +66,7 @@ const Stories = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(handleNextStory, 500000);
+    const interval = setInterval(handleNextStory, 15000);
 
     return () => clearInterval(interval);
   }, [currentIndex, data]);
@@ -79,25 +79,36 @@ const Stories = () => {
     }
   };
 
+  let elements = null;
+  if (data) {
+    const mappedData = data.map((element) => {
+      return (elements = element);
+    });
+  }
+
   return (
     <div className="stories">
-      <div className="story">
-        <img
-          src={
-            currentUser.profilePic !== null
-              ? "/upload/" + currentUser.profilePic
-              : defaultUser.profilePic
-          }
-          alt=""
-        />
-        <span className="userName">{currentUser.name}</span>
-        <Link to={`/story/${currentUser.id}`}>
-          <div className="addStoryOverlay">
-            <span>Add new story</span>
-            <button>+</button>
-          </div>
-        </Link>
-      </div>
+      {currentUser.id !== (elements ? elements.userId : null) ? (
+        <div className="story">
+          <img
+            src={
+              currentUser.profilePic !== null
+                ? "/upload/" + currentUser.profilePic
+                : defaultUser.profilePic
+            }
+            alt=""
+          />
+          <span className="userName">{currentUser.name}</span>
+          <Link to={`/story/${currentUser.id}`}>
+            <div className="addStoryOverlay">
+              <span>Add new story</span>
+              <button>+</button>
+            </div>
+          </Link>
+        </div>
+      ) : (
+        ""
+      )}
       {error
         ? "Something went wrong"
         : isLoading

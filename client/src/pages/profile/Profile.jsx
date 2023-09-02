@@ -32,7 +32,7 @@ const Profile = () => {
 
   useEffect(() => {
     refetch();
-  }, [location.pathname, refetch])
+  }, [location.pathname, refetch]);
 
   const { isLoading: rIsLoading, data: relationshipData } = useQuery(
     ["relationship"],
@@ -128,9 +128,10 @@ const Profile = () => {
                   </button>
                 )}
               </div>
-              <div className="right"></div>
-              <EmailOutlinedIcon />
-              <MoreVertIcon />
+              <div className="right">
+                <EmailOutlinedIcon />
+                <MoreVertIcon />
+              </div>
             </div>
             <Posts userId={userId} />
           </div>
