@@ -22,7 +22,7 @@ const Story = () => {
           </Link>
         </div>
       </div>
-      <div className="base">
+      <div className="cards">
         <label htmlFor="file">
           <div className="element">
             <PhotoLibraryIcon

@@ -20,6 +20,14 @@
       border-radius: 12px;
       background-color: themed("bg");
 
+      @include mobile {
+        width: 80%;
+      }
+
+      @include tablet {
+        width: 80%;
+      }
+
       .elements {
         position: absolute;
 
@@ -45,12 +53,24 @@
           img {
             margin: 20px;
             border: solid 1px;
-            width: calc(30% - 70px);
-            height: calc(100% - 420px);
+            width: calc(30% - 180px);
+            height: calc(100% - 380px);
             position: absolute;
             object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+            @include mobile {
+              margin-top: 50px;
+              width: 25vh;
+              height: 45vh;
+            }
+
+            @include tablet {
+              margin-top: 50px;
+              width: 25vh;
+              height: 45vh;
+            }
           }
         }
 
@@ -70,6 +90,22 @@
           border-radius: 10px;
           cursor: pointer;
           background-color: themed("bgSoft");
+
+          @include mobile {
+            position: absolute;
+            bottom: 18vh;
+            height: 10vh;
+            width: 30vh;
+            padding: 0;
+          }
+
+          @include tablet {
+            position: absolute;
+            bottom: 18vh;
+            height: 10vh;
+            width: 30vh;
+            padding: 0;
+          }
 
           .tool {
             display: flex;

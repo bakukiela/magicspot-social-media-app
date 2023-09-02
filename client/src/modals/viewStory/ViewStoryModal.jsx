@@ -19,7 +19,6 @@ const ViewStoryModal = ({
   handleNextStory,
 }) => {
   const [showButtons, setShowButtons] = useState(false);
-  // const [menuOpen, setMenuOpen] = useState(false);
   const [isListExpanded, setListExpanded] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const queryClient = useQueryClient();

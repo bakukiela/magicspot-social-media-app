@@ -32,7 +32,7 @@ const Login = () => {
       <div className="card">
         <div className="left">
           <h1>Hello World.</h1>
-          <p>Welcome on my login page</p>
+          <p>Welcome on my login page!</p>
           <span>Do you have an account?</span>
           <Link to="/register">
             <button>Register</button>
