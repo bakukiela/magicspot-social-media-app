@@ -6,7 +6,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
@@ -24,6 +24,7 @@ const NavBar = () => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchVisibility, setsearchVisibility] = useState(false);
   const [showList, setShowList] = useState(false);
 
   const queryClient = useQueryClient();
@@ -87,6 +88,10 @@ const NavBar = () => {
     alert("This functionality is not available yet!");
   };
 
+  const toggleSearch = () => {
+    setsearchVisibility(!searchVisibility);
+  };
+
   return (
     <div className="navBar">
       <div className="left">
@@ -103,9 +108,10 @@ const NavBar = () => {
         </IconButton>
       </div>
       <div className="search">
-        <SearchOutlinedIcon />
+        <SearchOutlinedIcon onClick={toggleSearch} />
         <input
           type="text"
+          className={`input ${searchVisibility ? "show" : ""}`}
           placeholder="Search..."
           value={searchTerm}
           onClick={() => setShowList(true)}
@@ -120,15 +126,24 @@ const NavBar = () => {
             ) : (
               <ul>
                 {filteredUsers.map((user) => (
-                  <li key={user.id}>
-                    <Link
-                      to={`/profile/${user.id}`}
-                      style={{ textDecoration: "none" }}
-                      onClick={() => setShowList(false)}
-                    >
+                  <Link
+                    to={`/profile/${user.id}`}
+                    onClick={() => setShowList(false)}
+                    className="profileList"
+                  >
+                    <li key={user.id}>
+                      <img
+                        src={
+                          user.profilePic !== null
+                            ? "/upload/" + user.profilePic
+                            : defaultUser.profilePic
+                        }
+                        alt=""
+                      ></img>
                       {user.name}
-                    </Link>
-                  </li>
+                    </li>
+                    <hr />
+                  </Link>
                 ))}
               </ul>
             )}

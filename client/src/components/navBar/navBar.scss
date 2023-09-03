@@ -52,7 +52,15 @@
       padding: 5px;
       cursor: pointer;
 
-      input {
+      @include mobile {
+        right: 18%;
+        position: absolute;
+        background-color: themed("bgSoft");
+        z-index: 2;
+        gap: 10px;
+      }
+
+      .input {
         border: none;
         width: 500px;
         height: 30px;
@@ -67,6 +75,13 @@
         }
       }
 
+      .input.show {
+        display: block;
+        @include mobile {
+          width: 18vh;
+        }
+      }
+
       .userList {
         position: absolute;
         width: 545px;
@@ -77,13 +92,45 @@
         color: themed("textColor");
         background-color: themed("bg");
         border-radius: 5px;
+        border: solid 0.2px;
 
-        li {
-          display: flex;
-          justify-content: space-between;
-          padding: 10px;
-          list-style: none;
-          border-radius: 5px;
+        @include mobile {
+          width: 100%;
+        }
+
+        @include tablet {
+          width: 100%;
+        }
+
+        .profileList {
+          text-decoration: none;
+          color: themed("textColor");
+
+          li {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            padding: 10px;
+            list-style: none;
+            border-radius: 5px;
+            gap: 15px;
+            color: themed("textColor");
+
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 5px;
+              object-fit: cover;
+            }
+          }
+
+          hr {
+            color: themed("textColor");
+            border: none;
+            text-align: center;
+            height: 0.5px;
+            background-color: themed("border");
+          }
         }
 
         li:hover {
@@ -97,12 +144,12 @@
       align-items: center;
       gap: 20px;
 
-      @include mobile {
-        display: none;
-      }
-
       .IconButtons {
         color: themed("textColor");
+
+        @include mobile {
+          display: none;
+        }
       }
 
       .user {
@@ -157,7 +204,7 @@
         }
 
         @include tablet {
-          display: none;
+          display: flex;
         }
         img {
           width: 40px;
