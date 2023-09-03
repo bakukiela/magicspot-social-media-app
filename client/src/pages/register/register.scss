@@ -1,3 +1,5 @@
+@import "../../style.scss";
+
 .register {
   height: 100vh;
   background-color: rgb(193, 190, 255);
@@ -14,6 +16,11 @@
     min-height: 600px;
     overflow: hidden;
 
+    @include mobile {
+      width: 80%;
+      flex-direction: column;
+    }
+
     .left {
       flex: 1;
       background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
@@ -26,9 +33,22 @@
       gap: 30px;
       color: white;
 
+      @include mobile {
+        gap: 5px;
+        padding: 20px;
+      }
+
       h1 {
         font-size: 100px;
         line-height: 100px;
+
+        @include mobile {
+          font-size: 60px;
+          line-height: 1;
+          width: 10px;
+          margin: 10px;
+          justify-content: center;
+        }
       }
 
       p {
@@ -57,8 +77,17 @@
       justify-content: center;
       gap: 50px;
 
+      @include mobile {
+        gap: 0;
+        padding: 0px 50px;
+      }
+
       h1 {
         color: #555;
+
+        @include mobile {
+          margin-bottom: 5px;
+        }
       }
 
       form {
@@ -69,6 +98,11 @@
           border: none;
           border-bottom: 1px solid lightgrey;
           padding: 20px 10px;
+
+          @include mobile {
+            padding: 5px;
+            margin: 0px 5px;
+          }
         }
         button {
           width: 50%;
@@ -78,6 +112,10 @@
           color: white;
           font-weight: bold;
           cursor: pointer;
+
+          @include mobile {
+            margin: 10px;
+          }
         }
       }
     }

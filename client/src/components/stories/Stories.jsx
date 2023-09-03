@@ -6,6 +6,9 @@ import { makeRequest } from "../../axios";
 import { Link } from "react-router-dom";
 import ViewStoryModal from "../../modals/viewStory/ViewStoryModal";
 import { DefaultUserContext } from "../../context/defaultUserContext";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { IconButton } from "@mui/material";
 
 const Stories = () => {
   const [viewStory, setViewStory] = useState(null);
@@ -110,28 +113,28 @@ const Stories = () => {
         ""
       )}
       {error
-        ? "Something went wrong"
-        : isLoading
-        ? "loading"
-        : Object.keys(userImageContainers).map((container) => (
-            <div
-              className="story"
-              onClick={() =>
-                handleStoryClick(userImageContainers[container][0], 0)
-              }
-              key={container}
-            >
-              <img
-                src={"/upload/" + userImageContainers[container][0].img}
-                alt=""
-              />
-              <div className="storyOverlay">
-                <span className="userName">
-                  {userImageContainers[container][0].name}
-                </span>
-              </div>
-            </div>
-          ))}
+  ? "Something went wrong"
+  : isLoading
+  ? "loading"
+  : Object.keys(userImageContainers).map((container) => (
+      <div
+        className="story"
+        onClick={() =>
+          handleStoryClick(userImageContainers[container][0], 0)
+        }
+        key={container}
+      >
+        <img
+          src={"/upload/" + userImageContainers[container][0].img}
+          alt=""
+        />
+        <div className="storyOverlay">
+          <span className="userName">
+            {userImageContainers[container][0].name}
+          </span>
+        </div>
+      </div>
+    ))}
       {viewStory && (
         <ViewStoryModal
           handlePreviousStory={handlePreviousStory}
