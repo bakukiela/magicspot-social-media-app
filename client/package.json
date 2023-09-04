@@ -1,8 +1,8 @@
 {
-  "homepage": "https://bakukiela.github.io/"
+  "homepage": "https://bakukiela.github.io/magicspot-social-media-app"
   "name": "magic-social-app",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
