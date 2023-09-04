@@ -15,7 +15,7 @@ const Update = ({ setOpenUpdate, user }) => {
     city: user.city,
   });
 
-  console.log(text.city)
+  console.log(text.city);
 
   const uploadFile = async (file) => {
     try {
