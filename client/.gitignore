@@ -5,6 +5,7 @@
 /upload
 /.pnp
 .pnp.js
+# config-overrides.js
 
 # testing
 /coverage

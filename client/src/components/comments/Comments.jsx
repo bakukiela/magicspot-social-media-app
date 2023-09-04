@@ -5,9 +5,12 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
 import moment from "moment";
 import { DefaultUserContext } from "../../context/defaultUserContext";
+// import { useMediaQuery } from "@mui/material";
 
 const Comments = ({ postId }) => {
   const [desc, setDesc] = useState("");
+  const [showFullComments, setShowFullComments] = useState(false);
+
   const { currentUser } = useContext(AuthContext);
   const defaultUser = useContext(DefaultUserContext);
 
@@ -29,6 +32,10 @@ const Comments = ({ postId }) => {
       },
     }
   );
+
+  const toggleShowFullComments = () => {
+    setShowFullComments(!showFullComments);
+  };
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -64,13 +71,22 @@ const Comments = ({ postId }) => {
               <img src={"/upload/" + comment.profilePic} alt="" />
               <div className="info">
                 <span>{comment.name}</span>
-                <p>{comment.desc}</p>
+                <p>
+                  {showFullComments
+                    ? comment.desc
+                    : comment.desc.length > 17
+                    ? comment.desc.slice(0, 17) + "..."
+                    : comment.desc}
+                </p>
               </div>
               <span className="date">
                 {moment(comment.createdAt).fromNow()}
               </span>
             </div>
           ))}
+      <button className="showMore" onClick={toggleShowFullComments}>
+        {showFullComments ? "Show Less" : "Show More"}
+      </button>
     </div>
   );
 };
