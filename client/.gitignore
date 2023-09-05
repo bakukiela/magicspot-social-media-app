@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /upload
+docs
 /.pnp
 .pnp.js
 # config-overrides.js
@@ -11,7 +12,7 @@
 /coverage
 
 # production
-/build
+# /build
 
 # misc
 .DS_Store
