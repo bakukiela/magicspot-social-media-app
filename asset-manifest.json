@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/magicspot-social-media-app/static/css/main.1bfd1203.css",
+    "main.js": "/magicspot-social-media-app/static/js/main.6c6a88df.js",
+    "index.html": "/magicspot-social-media-app/index.html",
+    "main.1bfd1203.css.map": "/magicspot-social-media-app/static/css/main.1bfd1203.css.map",
+    "main.6c6a88df.js.map": "/magicspot-social-media-app/static/js/main.6c6a88df.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1bfd1203.css",
+    "static/js/main.6c6a88df.js"
+  ]
+}
