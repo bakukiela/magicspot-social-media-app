@@ -2,10 +2,11 @@ import "./style.scss";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet,
+  BrowserRouter as Router,
+  Route,
+  Routes,
   Navigate,
+  Outlet
 } from "react-router-dom";
 import Story from "./components/story/Story";
 import NavBar from "./components/navBar/NavBar";
@@ -50,45 +51,27 @@ function App() {
     return children;
   };
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <ProtectedRoute>
-          <DefaultUserProvider>
-            <Layout />
-          </DefaultUserProvider>
-        </ProtectedRoute>
-      ),
-      children: [
-        {
-          path: "/",
-          element: <Home />,
-        },
-        {
-          path: "/profile/:id",
-          element: <Profile />,
-        },
-        {
-          path: "/story/:id",
-          element: <Story />,
-        },
-      ],
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-  ]);
-
   return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
+    <Router basename="/magicspot-social-media-app">
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DefaultUserProvider>
+                <Layout />
+              </DefaultUserProvider>
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="profile/:id" element={<Profile />} />
+          <Route path="story/:id" element={<Story />} />
+        </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+      </Routes>
+    </Router>
   );
 }
 

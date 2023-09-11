@@ -2,7 +2,7 @@
   "homepage": "http://bakukiela.github.io/magicspot-social-media-app",
   "name": "magic-social-app",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -53,7 +53,6 @@
   "devDependencies": {
     "gh-pages": "^6.0.0",
     "react-app-rewired": "^2.2.1",
-    "sass": "^1.66.1",
-    "@babel/plugin-proposal-private-property-in-object": "^1.0.0"
+    "sass": "^1.66.1"
   }
 }
